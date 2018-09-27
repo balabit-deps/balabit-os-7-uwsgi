@@ -1,0 +1,19 @@
+Description: Fix PSGI application loading with recent Perl
+Origin: upstream, https://github.com/unbit/uwsgi/commit/8368f94
+Author: Anton Petrusevich <anton.petrusevich@lycos.com>
+Forwarded: yes
+Last-Update: 2017-06-20
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/plugins/psgi/psgi_loader.c
++++ b/plugins/psgi/psgi_loader.c
+@@ -470,7 +470,8 @@
+ 			if (!uperl.no_plack) { 
+ 				uwsgi_log("Plack::Util is not installed, using \"do\" instead of \"load_psgi\"\n");
+ 			}
+-			char *code = uwsgi_concat3("my $app = do '", app_name, "';  if ( !$app && ( my $error = $@ || $! )) { die $error; }; $app");
++			perl_eval_pv("use File::Spec;", 1);
++			char *code = uwsgi_concat3("my $app = do File::Spec->rel2abs('", app_name, "');  if ( !$app && ( my $error = $@ || $! )) { die $error; }; $app");
+ 			callables[i] = perl_eval_pv(code, 0);
+ 			free(code);
+ 		}

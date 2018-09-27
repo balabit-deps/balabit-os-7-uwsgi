@@ -1,0 +1,69 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: uWSGI
+Upstream-Contact: uWSGI developers and users list <uwsgi@lists.unbit.it>
+                  Roberto De Ioris <roberto@unbit.it>
+Source: http://projects.unbit.it/uwsgi/
+ git://github.com/unbit/uwsgi
+
+Files: *
+Copyright:
+  © 2009-2016, Unbit S.a.s <info@unbit.it>
+License-Grant:
+ GPL-2
+License: GPL-2
+Comment:
+ Source mentions a linking exception, but it is uncertain for which code
+ it aplies, and whether it applies to derived works as well.
+
+Files: apache2/*
+ core/uwsgi.c
+ plugins/router_xmldir/router_xmldir.c
+Copyright:
+  © 2009-2010, Roger Florkowski <rflorkowski@mypublisher.com>
+  © 2009-2015, Unbit S.a.s <info@unbit.it>
+  © 2009-2010,2013, Unbit S.a.s. <info@unbit.it>
+  © 2013, Guido Berhoerster <guido+uwsgi@berhoerster.name>
+License-Grant:
+ This program is free software; you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 2 of the License, or (at your
+ option) any later version.
+License: GPL-2+
+
+Files: core/rb_timers.c
+Copyright:
+  © Igor Sysoev
+  © Nginx, Inc.
+  © Unbit S.a.s.
+License: GPL-2
+Comment:
+ Contains copyright but no license.  Licensing assumed same as generally
+ for the project.
+
+Files: core/hash.c
+Copyright:
+  © Austin Appleby
+License-grant:
+ adapted from nginx
+License: GPL-2
+Comment:
+ Contains copyright but no license.  Licensing assumed same as generally
+ for the project.
+
+Files: debian/*
+Copyright:
+  © 2010, Leonid Borisenko <leo.borisenko@gmail.com>
+  © 2012-2013, Janos Guljas <janos@debian.org>
+  © 2013-2017, Jonas Smedegaard <dr@jones.dk>
+License-grant:
+ This program is free software; you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 2, or (at your option) any
+ later version.
+License: GPL-2+
+
+License: GPL-2
+License-Reference: /usr/share/common-licenses/GPL-2
+
+License: GPL-2+
+License-Reference: /usr/share/common-licenses/GPL-2

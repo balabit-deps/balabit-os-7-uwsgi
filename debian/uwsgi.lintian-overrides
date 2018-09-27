@@ -1,0 +1,2 @@
+# bogus lintian check: versioned dependency unneeded since satisfies everywhere supported by Debian
+init.d-script-needs-depends-on-lsb-base

@@ -1,0 +1,78 @@
+Description: Fix drop-after options so they work
+ Moved all calls to `uwsgi_as_root` into `uwsgi.c` so that all handling
+ of privilege dropping is in the same file. Added extra checks to ensure
+ that privileges are properly dropped when the user requests them to be
+ dropped.
+Origin: upstream, https://github.com/unbit/uwsgi/commit/a63b659
+Author: Robert DeRose <RobertDeRose@gmail.com>
+Forwarded: yes
+Bug: https://github.com/unbit/uwsgi/issues/1519
+Last-Update: 2017-06-20
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/core/socket.c
++++ b/core/socket.c
+@@ -1825,13 +1825,6 @@
+ 
+ stdin_done:
+ 
+-	if (uwsgi.chown_socket) {
+-		if (!uwsgi.master_as_root) {
+-			uwsgi_as_root();
+-		}
+-	}
+-
+-
+ 	// check for auto_port socket
+ 	uwsgi_sock = uwsgi.sockets;
+ 	while (uwsgi_sock) {
+--- a/core/uwsgi.c
++++ b/core/uwsgi.c
+@@ -2571,6 +2571,7 @@
+ 	uwsgi_file_write_do(uwsgi.file_write_list);
+ 
+ 	if (!uwsgi.master_as_root && !uwsgi.chown_socket && !uwsgi.drop_after_init && !uwsgi.drop_after_apps) {
++		uwsgi_log("dropping root privileges as early as possible\n");
+ 		uwsgi_as_root();
+ 	}
+ 
+@@ -2808,6 +2809,11 @@
+ 		//now bind all the unbound sockets
+ 		uwsgi_bind_sockets();
+ 
++		if (!uwsgi.master_as_root && !uwsgi.drop_after_init && !uwsgi.drop_after_apps) {
++			uwsgi_log("dropping root privileges after socket binding\n");
++			uwsgi_as_root();
++		}
++
+ 		// put listening socket in non-blocking state and set the protocol
+ 		uwsgi_set_sockets_protocols();
+ 
+@@ -2823,7 +2829,8 @@
+ 		}
+ 	}
+ 
+-	if (uwsgi.drop_after_init) {
++	if (!uwsgi.master_as_root && !uwsgi.drop_after_apps) {
++		uwsgi_log("dropping root privileges after plugin initialization\n");
+ 		uwsgi_as_root();
+ 	}
+ 
+@@ -3076,7 +3083,8 @@
+ 		uwsgi_init_all_apps();
+ 	}
+ 
+-	if (uwsgi.drop_after_apps) {
++	if (!uwsgi.master_as_root) {
++		uwsgi_log("dropping root privileges after application loading\n");
+ 		uwsgi_as_root();
+ 	}
+ 
+@@ -3326,6 +3334,7 @@
+ 	}
+ 
+ 	if (uwsgi.master_as_root) {
++		uwsgi_log("dropping root privileges after master thread creation\n");
+ 		uwsgi_as_root();
+ 	}
+ 

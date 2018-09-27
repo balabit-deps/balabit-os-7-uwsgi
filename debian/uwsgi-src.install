@@ -1,0 +1,2 @@
+uwsgiconfig.py usr/src/uwsgi
+plugins-src/* usr/src/uwsgi/plugins

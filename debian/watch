@@ -1,0 +1,4 @@
+# run "uscan --report" to check or "gpb import-orig --uscan" to update
+version=4
+opts="dversionmangle=s/~dfsg.*//,repacksuffix=~dfsg,downloadurlmangle=s&.*/Changelog-(\d[\d.]+)\.html&https://projects.unbit.it/downloads/@PACKAGE@-$1.tar.gz&" \
+https://uwsgi-docs.readthedocs.io/en/latest/ Changelog-(\d[\d.]+)\.html
