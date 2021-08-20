@@ -10,3 +10,4 @@
 1009_fix_java_paths.patch
 1010_support_java_pass_includes.patch
 CVE-2018-7490.patch
+CVE-2020-11984.patch
